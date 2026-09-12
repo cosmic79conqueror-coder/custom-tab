@@ -31,7 +31,7 @@
             </div>
 
             <div class="shortcuts" role="tablist">
-                <button class="btn shortcut-btn" data-url="https://www.google.com" title="Google" role="tab" tabindex="0">
+                <button class="btn shortcut-btn" data-url="https://www.google.com/webhp?igu=1" title="Google" role="tab" tabindex="0">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 </button>
@@ -39,11 +39,11 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A2.75 2.75 0 0 0 1 11.75a2.75 2.75 0 0 0 .77 2.16 2.78 2.78 0 0 0 1.94 2C5.12 18 12 18 12 18s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 2.75 2.75 0 0 0-.77-2.16 2.75 2.75 0 0 0-1.06-.35z"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="10.5" y1="15" x2="15.5" y2="15"/></svg>
                 </button>
-                <button class="btn shortcut-btn" data-url="https://github.com" title="GitHub" role="tab" tabindex="0">
+                <button class="btn shortcut-btn" data-url="https://bing.com" title="Bing" role="tab" tabindex="0">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path d="M18 13v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3"/><path d="M15 3.4h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3"/><path d="M7 12l-2.29 2.29a2 2 0 0 1-1.83-.69L3 15l8.5-8.5a2 2 0 0 1 1.25-.16l.16-.06"/><circle cx="12" cy="12" r="4"/></svg>
                 </button>
-                <button class="btn shortcut-btn" data-url="https://stardance.com" title="Stardance" role="tab" tabindex="0">
+                <button class="btn shortcut-btn" data-url="https://en.wikipedia.org" title="Wikipedia" role="tab" tabindex="0">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="17" r="3"/></svg>
                 </button>
@@ -55,15 +55,15 @@
             </div>
         </header>
         <main class="content">
-            <div class="placeholder">
+            <div class="placeholder" id="placeholder">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="icon">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                    <circle cx="12" cy="17" r="3"/>
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
-                <h2>Enter a URL or search term</h2>
-                <p>Type a website address or search term and click Go, or use the shortcuts above</p>
+                <h2>Google Search Inside</h2>
+                <p>Type a website address or search term and click Go!</p>
             </div>
+            <!-- The iframe where the web pages will actually load -->
+            <iframe id="browser-frame" class="browser-frame" style="display: none;" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
         </main>
     </div>
     <script src="script.js"></script>

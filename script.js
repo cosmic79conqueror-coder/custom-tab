@@ -1,140 +1,124 @@
-//! Simple Browser - JavaScript Functionality
-//! A minimal, functional browser using direct navigation
-
-//! On DOM Content Loaded
 document.addEventListener('DOMContentLoaded', () => {
     const urlInput = document.getElementById('url-input');
     const btnGo = document.getElementById('btn-go');
-    const placeholder = document.querySelector('.placeholder');
+    const placeholder = document.getElementById('placeholder');
+    const iframe = document.getElementById('browser-frame');
+    
+    // Toolbar buttons
+    const btnHome = document.getElementById('btn-home');
+    const btnRefresh = document.getElementById('btn-refresh');
+    const btnBack = document.getElementById('btn-back');
+    const btnForward = document.getElementById('btn-forward');
+    const btnDarkMode = document.getElementById('btn-darkmode');
 
-    // Function to process and navigate to URL or search
-    function navigate(query) {
+    // Maintain a simple history array since cross-origin iframes block window.history access
+    let history = [];
+    let historyIndex = -1;
+
+    function navigate(query, isHistoryNavigation = false) {
         if (!query.trim()) return;
 
         let finalUrl = '';
-
-        // Check if the user typed a URL or a search term
-        // Simple URL detection - if it has a domain format
-        const isUrl = /^https?:\/\//i.test(query) || /^www\./i.test(query);
+        const isUrl = /^https?:\/\//i.test(query) || /^www\./i.test(query) || /^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/.test(query);
 
         if (isUrl) {
-            // User typed a URL - ensure it has https://
             finalUrl = query.startsWith('http') ? query : `https://${query}`;
         } else {
-            // User typed a search term - redirect to DuckDuckGo (works in all browsers)
-            finalUrl = `https://duckduckgo.com/search?q=${encodeURIComponent(query)}`;
-            // Show info about the search
-            showInfo(`Searching DuckDuckGo: "${query}"`);
+            // Use Google Search. The igu=1 parameter allows it to render in an iframe!
+            finalUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}&igu=1`;
+            showInfo(`Searching Google: "${query}"`);
         }
 
-        // Hide placeholder, show we're navigating
+        // Update UI
+        urlInput.value = finalUrl;
         placeholder.style.display = 'none';
+        iframe.style.display = 'block';
+        iframe.src = finalUrl;
 
-        // Navigate using window.location - most reliable method
-        // This bypasses all iframe security restrictions (X-Frame-Options, etc.)
-        try {
-            window.location = finalUrl;
-            
-            // Brief delay then hide placeholder
-            setTimeout(() => {
-                placeholder.style.display = 'block';
-            }, 1000);
-        } catch (e) {
-            console.error("Navigation error:", e);
-            showError("Navigation error. Please check the URL.");
+        // Manage History
+        if (!isHistoryNavigation) {
+            history = history.slice(0, historyIndex + 1);
+            history.push(finalUrl);
+            historyIndex++;
         }
     }
 
-    // Event Listener for the "Go" button
-    btnGo.addEventListener('click', () => {
-        navigate(urlInput.value);
-    });
-
-    // Event Listener for pressing "Enter" in the address bar
+    // Go Button & Enter Key
+    btnGo.addEventListener('click', () => navigate(urlInput.value));
     urlInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            navigate(urlInput.value);
-        }
+        if (e.key === 'Enter') navigate(urlInput.value);
     });
 
-    // ===== SHORTCUT BUTTONS =====
-    // Note: Shortcuts set the URL directly, navigate function not called for them
-    // to allow immediate navigation without search conversion
+    // Shortcuts
     const shortcuts = document.querySelectorAll('.shortcut-btn');
     shortcuts.forEach(btn => {
         btn.addEventListener('click', () => {
-            const url = btn.getAttribute('data-url');
-            // For shortcuts, navigate directly
-            if (!url.startsWith('http')) {
-                url = `https://${url}`;
-            }
-            window.location = url;
-            placeholder.style.display = 'none';
+            navigate(btn.getAttribute('data-url'));
         });
     });
+
+    // Home Button
+    btnHome.addEventListener('click', () => {
+        iframe.style.display = 'none';
+        iframe.src = '';
+        placeholder.style.display = 'flex';
+        urlInput.value = '';
+    });
+
+    // Refresh Button
+    btnRefresh.addEventListener('click', () => {
+        if (iframe.src) iframe.src = iframe.src;
+    });
+
+    // Back Button (Custom implementation due to cross-origin policies)
+    btnBack.addEventListener('click', () => {
+        if (historyIndex > 0) {
+            historyIndex--;
+            navigate(history[historyIndex], true);
+        } else {
+            showError("No more history to go back to.");
+        }
+    });
+
+    // Forward Button
+    btnForward.addEventListener('click', () => {
+        if (historyIndex < history.length - 1) {
+            historyIndex++;
+            navigate(history[historyIndex], true);
+        }
+    });
+
+    // Dark Mode Toggle
+    btnDarkMode.addEventListener('click', () => {
+        document.body.classList.toggle("dark");
+        const isDark = document.body.classList.contains("dark");
+        localStorage.setItem("browserDarkMode", isDark);
+        btnDarkMode.textContent = isDark ? "☀️" : "🌙";
+    });
+
+    // Load saved dark mode preference
+    if (localStorage.getItem("browserDarkMode") === "true") {
+        document.body.classList.add("dark");
+        btnDarkMode.textContent = "☀️";
+    }
 });
 
-//! Toggle Dark Mode
-function toggleDarkMode() {
-    // Toggle dark mode class on body
-    document.body.classList.toggle("dark", !document.body.classList.contains("dark"));
-    // Store preference
-    localStorage.setItem("browserDarkMode", document.body.classList.contains("dark"));
-}
-
-//! Show Error Message
 function showError(message) {
-    // Check if error already exists
     if (document.querySelector('.error-overlay')) return;
-    
-    // Create error overlay
     const overlay = document.createElement("div");
     overlay.className = "error-overlay";
-    overlay.style.position = "absolute";
-    overlay.style.top = "0";
-    overlay.style.left = "0";
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-    overlay.style.background = "rgba(231, 75, 61, 0.1)";
-    overlay.style.color = "#e74c3c";
-    overlay.style.display = "flex";
-    overlay.style.alignItems = "center";
-    overlay.style.justifyContent = "center";
-    overlay.style.pointerEvents = "none";
-    overlay.innerHTML = `<p style="background: white; padding: 1rem 2rem; border-radius: 8px; max-width: 300px;">${message}</p>`;
-
-    // Remove after 5 seconds
-    setTimeout(() => overlay.remove(), 5000);
-
-    // Insert into body
-    document.body.insertBefore(overlay, document.body.firstChild);
+    overlay.style = "position: absolute; top: 1rem; right: 1rem; background: #e74c3c; color: white; padding: 1rem; border-radius: 8px; z-index: 1000;";
+    overlay.textContent = message;
+    document.body.appendChild(overlay);
+    setTimeout(() => overlay.remove(), 3000);
 }
 
-//! Show Info Message (temporary notification)
 function showInfo(message) {
-    // Check if info already exists
     if (document.querySelector('.info-overlay')) document.querySelector('.info-overlay').remove();
-    
-    // Create info overlay
     const overlay = document.createElement("div");
     overlay.className = "info-overlay";
-    overlay.style.position = "absolute";
-    overlay.style.top = "0";
-    overlay.style.left = "0";
-    overlay.style.width = "100%";
-    overlay.style.height = "auto";
-    overlay.style.background = "rgba(46, 204, 113, 0.1)";
-    overlay.style.color = "#2ecc71";
-    overlay.style.display = "flex";
-    overlay.style.alignItems = "center";
-    overlay.style.justifyContent = "center";
-    overlay.style.padding = "1rem 2rem";
-    overlay.style.pointerEvents = "none";
-    overlay.innerHTML = `<p style="background: white; padding: 0.5rem 1rem; border-radius: 8px; max-width: 300px;">${message}</p>`;
-
-    // Remove after 3 seconds
-    setTimeout(() => overlay.remove(), 3000);
-
-    // Insert into body
-    document.body.insertBefore(overlay, document.body.firstChild);
+    overlay.style = "position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); background: #2ecc71; color: white; padding: 0.5rem 1rem; border-radius: 20px; z-index: 1000;";
+    overlay.textContent = message;
+    document.body.appendChild(overlay);
+    setTimeout(() => overlay.remove(), 2500);
 }
