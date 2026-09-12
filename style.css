@@ -1,0 +1,346 @@
+/*!
+ * Simple Browser - Stylesheet
+ * A minimal, functional browser-like web interface with dark mode
+ */
+
+/* CSS Variables */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --bg-light: #f4f6f9;
+    --bg-dark: #2c3e50;
+    --card-bg: #ffffff;
+    --card-bg-dark: #1e2d3b;
+    --text-primary: #2c3e50;
+    --text-secondary: #666;
+    --text-light: #fff;
+    --border-color: #ddd;
+    --border-color-dark: #444;
+    --success-color: #27ae60;
+}
+
+/* Dark mode (toggled via body class) */
+body.dark {
+    --bg-color: var(--bg-dark);
+    --card-bg: var(--card-bg-dark);
+    --text-primary: var(--text-light);
+    --text-secondary: #aaa;
+    --border-color: var(--border-color-dark);
+}
+
+/* Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Rob', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Browser Container */
+.browser-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Toolbar */
+.toolbar {
+    background: var(--card-bg);
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Logo turns white in dark mode */
+body.dark .logo {
+    color: #fff;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Buttons */
+.btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+body.dark .btn {
+    border-color: var(--border-color-dark);
+    color: #fff;
+}
+
+body.dark .btn:hover {
+    background: #3e5b6f;
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.btn:hover {
+    background: #f0f2f5;
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 2px;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* Shortcut buttons */
+.shortcuts {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+.shortcut-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    white-space: nowrap;
+}
+
+body.dark .shortcut-btn {
+    border-color: var(--border-color-dark);
+    color: #fff;
+}
+
+body.dark .shortcut-btn:hover {
+    background: #3e5b6f;
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.shortcut-btn:hover {
+    background: #f0f2f5;
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.shortcut-btn:focus-visible {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 2px;
+}
+
+.shortcut-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* URL Bar */
+.url-bar {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 0 1rem;
+    flex: 1;
+    max-width: 500px;
+    margin: 0 2rem;
+}
+
+body.dark .url-bar {
+    background: #1e2d3b;
+    border-color: var(--border-color-dark);
+}
+
+.url-input {
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    color: var(--text-primary);
+    flex: 1;
+    outline: none;
+    min-width: 200px;
+}
+
+.url-input::placeholder {
+    color: #999;
+}
+
+body.dark .url-input {
+    color: #fff;
+}
+
+body.dark .url-input::placeholder {
+    color: #aaa;
+}
+
+.url-input:focus {
+    padding: 0 0.5rem;
+}
+
+/* Go button in url bar */
+.url-bar .btn-go {
+    border-radius: 0 20px 20px 0;
+    margin-left: -1px;
+}
+
+/* Content Area */
+.content {
+    background: var(--card-bg);
+    min-height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+}
+
+.placeholder {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    /* Color will be overridden by body.dark */
+}
+
+body.dark .placeholder h2 {
+    color: #fff;
+}
+
+body.dark .placeholder p {
+    color: #aaa;
+}
+
+body.dark .placeholder svg {
+    color: #fff;
+}
+
+.placeholder svg {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    color: #ccc;
+    margin-bottom: 1rem;
+}
+
+.placeholder h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.placeholder p {
+    font-size: 1rem;
+}
+
+/* Browser Frame */
+.browser-frame {
+    flex: 1;
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .toolbar {
+        padding: 0.75rem 1rem;
+    }
+
+    .logo {
+        order: 2;
+        margin-bottom: 0.5rem;
+    }
+
+    .controls {
+        order: 3;
+        margin-top: 0.5rem;
+    }
+
+    .url-bar {
+        margin: 0 1rem 1rem 0;
+        max-width: 100%;
+        order: 1;
+    }
+
+    .btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+    }
+
+    .shortcuts {
+        margin-left: 0;
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+    }
+
+    .shortcut-btn {
+        flex: 0 0 auto;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.65rem;
+    }
+}
+
+/* Dark mode button specific */
+.btn-darkmode {
+    color: #666;
+    background: #fff;
+}
+
+.btn-darkmode:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.btn-darkmode.sun {
+    background: #faf3e0;
+    color: #d7b6a8;
+}
+
+.btn-darkmode.moon {
+    background: #2c3e50;
+    color: #ecf0f1;
+}
