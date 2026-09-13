@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let savedBookmarks = JSON.parse(localStorage.getItem('browserBookmarks')) || [];
     let savedHistory = JSON.parse(localStorage.getItem('browserHistory')) || [];
 
-    // --- NAVIGATION LOGIC ---
     function navigate(query, isHistoryNavigation = false) {
         if (!query || !query.trim()) return;
 
@@ -51,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- BROWSER CONTROLS ---
     btnGo.addEventListener('click', () => navigate(urlInput.value));
     urlInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') navigate(urlInput.value); });
     
@@ -80,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sessionIndex < sessionHistory.length - 1) { sessionIndex++; navigate(sessionHistory[sessionIndex], true); }
     });
 
-    // --- BOOKMARKS & HISTORY LOGIC ---
     function checkIfBookmarked() {
         if (!currentFinalUrl) { btnBookmark.textContent = '☆'; btnBookmark.style.color = 'inherit'; return; }
         const isBookmarked = savedBookmarks.some(b => b.url === currentFinalUrl);
@@ -156,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('clear-bookmarks').addEventListener('click', () => { savedBookmarks = []; localStorage.removeItem('browserBookmarks'); checkIfBookmarked(); renderLibrary(); });
     document.getElementById('clear-history').addEventListener('click', () => { savedHistory = []; localStorage.removeItem('browserHistory'); renderLibrary(); });
 
-    // --- DARK MODE LOGIC ---
     const btnDarkMode = document.getElementById('btn-darkmode');
     btnDarkMode.addEventListener('click', () => {
         document.body.classList.toggle("dark");
@@ -169,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btnDarkMode.textContent = "☀️";
     }
 
-    // --- AUTHENTICATION LOGIC ---
     const btnProfile = document.getElementById('btn-profile');
     const authModal = document.getElementById('auth-modal');
     
@@ -206,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     checkAuthStatus();
 
-    // --- REPLACED NEWS DATABASE (Guaranteed Unsplash Links) ---
     const newsFeed = document.getElementById('news-feed');
     const loadingSpinner = document.getElementById('loading-spinner');
     
@@ -277,7 +271,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- RECORD PLAYER LOGIC ---
     const musicToggle = document.getElementById('music-toggle');
     const musicBody = document.getElementById('music-body');
     const musicIcon = document.getElementById('music-icon');
