@@ -26,7 +26,7 @@ For other websites, direct navigation is used (no iframe), which works reliably 
 2. **Type a search term** (e.g., "photosynthesis") and click **Go** → Google Search renders inside the browser
 3. **Type a full URL** (e.g., `https://www.github.com`) and click **Go** → Loads the website
 4. **Click shortcut buttons** for instant access to Google, YouTube, Bing, Wikipedia
-5. **Click 🌙 Dark mode** → Toggle between light and dark theme (preference is remembered)
+5. **Click Dark mode** → Toggle between light and dark theme (preference is remembered)
 6. **Click Home** → Returns to Google Search
 7. **Use Back/Forward** → Navigate your browsing history
 8. **Press Ctrl+R** → Refresh the current page
@@ -45,13 +45,3 @@ Works in all modern browsers:
 - Firefox (latest)
 - Edge (latest)
 - Safari (latest)
-
-## File Structure
-
-```
-simple-browser/
-├── index.html      # Browser structure
-├── style.css       # Styling and dark mode
-├── script.js       # Core functionality
-├── README.md       # This file
-└── .gitignore      # Git ignore file
