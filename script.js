@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkIfBookmarked() {
         if (!currentFinalUrl) { btnBookmark.textContent = '☆'; btnBookmark.style.color = 'inherit'; return; }
         const isBookmarked = savedBookmarks.some(b => b.url === currentFinalUrl);
-        btnBookmark.textContent = isBookmarked ? '⭐' : '☆';
+        btnBookmark.textContent = isBookmarked ? 'S' : '☆';
         btnBookmark.style.color = isBookmarked ? '#f1c40f' : 'inherit';
     }
 
@@ -158,11 +158,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle("dark");
         const isDark = document.body.classList.contains("dark");
         localStorage.setItem("browserDarkMode", isDark);
-        btnDarkMode.textContent = isDark ? "☀️" : "🌙";
+        btnDarkMode.textContent = isDark ? "D" : "L";
     });
     if (localStorage.getItem("browserDarkMode") === "true") {
         document.body.classList.add("dark");
-        btnDarkMode.textContent = "☀️";
+        btnDarkMode.textContent = "D";
     }
 
     const btnProfile = document.getElementById('btn-profile');

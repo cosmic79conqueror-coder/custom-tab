@@ -59,8 +59,7 @@ body.dark::after { opacity: 1; }
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.8s ease-in-out, border-color 0.8s ease-in-out, box-shadow 0.8s ease-in-out, transform 0.2s ease;
+    transition: background-color 0.8s ease-in-out, border-color 0.8s ease-in-out, transform 0.2s ease;
 }
 
 body.dark .glass-effect { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
