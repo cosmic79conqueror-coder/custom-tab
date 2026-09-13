@@ -15,49 +15,71 @@ document.addEventListener('DOMContentLoaded', () => {
     let history = [];
     let historyIndex = -1;
 
+    // Function to process and load the URL/Search
     function navigate(query, isHistoryNavigation = false) {
         if (!query.trim()) return;
 
         let finalUrl = '';
+        // Check if the user typed a URL or a search term
         const isUrl = /^https?:\/\//i.test(query) || /^www\./i.test(query) || /^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/.test(query);
 
         if (isUrl) {
+            // User typed a URL - ensure it has https://
             finalUrl = query.startsWith('http') ? query : `https://${query}`;
+            // If the user tries to load Google directly, apply the iframe workaround
+            if (finalUrl.includes('google.com')) {
+                finalUrl = 'https://www.google.com/search?q=&igu=1';
+            }
         } else {
-            // Use Google Search. The igu=1 parameter allows it to render in an iframe!
+            // User typed a search term - use Google Search with the iframe bypass (igu=1)
             finalUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}&igu=1`;
+            // Show info about the search being used
             showInfo(`Searching Google: "${query}"`);
         }
 
-        // Update UI
+        // Update UI elements
         urlInput.value = finalUrl;
         placeholder.style.display = 'none';
         iframe.style.display = 'block';
         iframe.src = finalUrl;
 
-        // Manage History
+        // Manage History array
         if (!isHistoryNavigation) {
+            // Remove forward history when navigating to new page
             history = history.slice(0, historyIndex + 1);
             history.push(finalUrl);
             historyIndex++;
         }
     }
 
-    // Go Button & Enter Key
+    // Go Button & Enter Key event listeners
     btnGo.addEventListener('click', () => navigate(urlInput.value));
     urlInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') navigate(urlInput.value);
+        if (e.key === 'Enter') {
+            navigate(urlInput.value);
+        }
     });
 
-    // Shortcuts
+    // Shortcut Buttons - navigate directly to the URL specified in data-url attribute
     const shortcuts = document.querySelectorAll('.shortcut-btn');
     shortcuts.forEach(btn => {
         btn.addEventListener('click', () => {
-            navigate(btn.getAttribute('data-url'));
+            const url = btn.getAttribute('data-url');
+            // For shortcuts, navigate directly without the search conversion
+            let urlToNavigate = url;
+            if (!url.startsWith('http')) {
+                urlToNavigate = `https://${url}`;
+            }
+            // Special handling for YouTube embed URL
+            if (urlToNavigate.includes('youtube.com/embed')) {
+                // YouTube embed works directly in iframe
+                urlToNavigate = urlToNavigate;
+            }
+            navigate(urlToNavigate);
         });
     });
 
-    // Home Button
+    // Home Button - resets to Google Search
     btnHome.addEventListener('click', () => {
         iframe.style.display = 'none';
         iframe.src = '';
@@ -65,12 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
         urlInput.value = '';
     });
 
-    // Refresh Button
+    // Refresh Button - reloads current page
     btnRefresh.addEventListener('click', () => {
-        if (iframe.src) iframe.src = iframe.src;
+        if (iframe.src) {
+            iframe.src = iframe.src;
+        }
     });
 
-    // Back Button (Custom implementation due to cross-origin policies)
+    // Back Button - custom implementation due to cross-origin iframe policies
     btnBack.addEventListener('click', () => {
         if (historyIndex > 0) {
             historyIndex--;
@@ -93,16 +117,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle("dark");
         const isDark = document.body.classList.contains("dark");
         localStorage.setItem("browserDarkMode", isDark);
+        // Update the button icon
         btnDarkMode.textContent = isDark ? "☀️" : "🌙";
     });
 
-    // Load saved dark mode preference
+    // Load saved dark mode preference from localStorage
     if (localStorage.getItem("browserDarkMode") === "true") {
         document.body.classList.add("dark");
         btnDarkMode.textContent = "☀️";
     }
 });
 
+// Show Error Message function
 function showError(message) {
     if (document.querySelector('.error-overlay')) return;
     const overlay = document.createElement("div");
@@ -113,6 +139,7 @@ function showError(message) {
     setTimeout(() => overlay.remove(), 3000);
 }
 
+// Show Info Message function
 function showInfo(message) {
     if (document.querySelector('.info-overlay')) document.querySelector('.info-overlay').remove();
     const overlay = document.createElement("div");
