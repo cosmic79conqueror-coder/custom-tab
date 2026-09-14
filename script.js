@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         finalUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}&igu=1`;
      }
      currentFinalUrl = finalUrl;
-  urlInput.value = finalUrl;
+ urlInput.value = finalUrl;
     placeholder.style.display = 'none';
   mainContent.style.padding = '0';
     iframe.style.display = 'block';
