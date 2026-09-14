@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workspace Browser</title>
+<title>Workspace Portal</title>
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -37,8 +37,29 @@
 <div class="landing-surface" id="placeholder">
 <div class="hero-block">
 <h1 class="welcome-heading" id="welcome-text">Workspace Portal</h1>
-<p class="hero-subtext">Low-latency architecture index, local persistence streams, and curated wire services.</p>
+<p class="hero-subtext">Low-latency architecture index, local persistence streams, quick notes, and curated wire services.</p>
 </div>
+
+<div class="portal-utility-row">
+<section class="quick-memo-panel glass-panel">
+<div class="panel-header-inline">
+<h3>Scratchpad Memo</h3>
+<button class="ctrl-btn" id="btn-save-memo">Save Note</button>
+</div>
+<textarea id="scratchpad-memo" placeholder="Type quick ephemeral session notes here..."></textarea>
+</section>
+
+<section class="system-telemetry-panel glass-panel">
+<h3>Environment Diagnostics</h3>
+<div class="telemetry-grid">
+<div class="tele-item"><span class="tele-label">Latency</span><span class="tele-val" id="tele-ping">14 ms</span></div>
+<div class="tele-item"><span class="tele-label">Memory</span><span class="tele-val">42.8 MB</span></div>
+<div class="tele-item"><span class="tele-label">Cluster</span><span class="tele-val">AP-SOUTH-1</span></div>
+<div class="tele-item"><span class="tele-label">State</span><span class="tele-val" style="color: #10b981;">SYNCED</span></div>
+</div>
+</section>
+</div>
+
 <div class="shortcut-grid">
 <div class="shortcut-card site-shortcut glass-panel" data-url="https://www.google.com/webhp?igu=1">
 <span class="glyph-badge">G</span>
@@ -55,7 +76,7 @@
 </div>
 <section class="wire-stream-section">
 <div class="stream-header">
-<h3 class="stream-title">Wirefeed Index</h3>
+<h3 class="stream-title">Google News Feed</h3>
 <div class="category-filters" id="gn-categories">
 <button class="filter-tab active" data-cat="Home">Home</button>
 <button class="filter-tab" data-cat="For You">For You</button>
@@ -66,7 +87,7 @@
 </div>
 </div>
 <div class="wire-feed-grid" id="news-feed"></div>
-<div id="loading-spinner" class="stream-status-indicator glass-panel">Streaming payload records...</div>
+<div id="loading-spinner" class="stream-status-indicator glass-panel">Loading more stories...</div>
 </section>
 </div>
 <iframe id="browser-frame" class="active-frame" style="display: none;" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-presentation allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"></iframe>

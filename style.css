@@ -52,7 +52,7 @@ body.dark {
 }
 
 .bg-light-layer {
-  background-image: url('day-sky.jpg');
+  background-image: url('imgres.jpg');
     z-index: -1;
 }
 
@@ -139,12 +139,22 @@ body.dark .bg-light-layer { opacity: 0; }
 
 .landing-surface {
   flex: 1; display: flex; flex-direction: column; align-items: center;
-    padding: 52px 24px; width: 100%; gap: 36px;
+    padding: 44px 24px; width: 100%; gap: 28px;
 }
 
 .hero-block { text-align: center; }
 .welcome-heading { font-size: 1.85rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 6px; }
 .hero-subtext { font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; }
+
+.portal-utility-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; width: 100%; max-width: 600px; }
+.quick-memo-panel, .system-telemetry-panel { padding: 14px 16px; border-radius: 10px; display: flex; flex-direction: column; gap: 10px; }
+.panel-header-inline { display: flex; justify-content: space-between; align-items: center; }
+.panel-header-inline h3, .system-telemetry-panel h3 { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-primary); }
+#scratchpad-memo { width: 100%; height: 64px; resize: none; background: var(--surface-hover); border: 1px solid var(--border-color); border-radius: 6px; padding: 8px; font-size: 0.8rem; color: var(--text-primary); outline: none; font-family: inherit; }
+.telemetry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.tele-item { display: flex; justify-content: space-between; font-size: 0.78rem; background: var(--surface-hover); padding: 4px 8px; border-radius: 4px; }
+.tele-label { color: var(--text-secondary); }
+.tele-val { font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
 
 .shortcut-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; width: 100%; max-width: 600px; }
 .shortcut-card {

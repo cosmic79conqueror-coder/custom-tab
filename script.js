@@ -12,6 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
    let savedBookmarks = JSON.parse(localStorage.getItem('browserBookmarks')) || [];
  let savedHistory = JSON.parse(localStorage.getItem('browserHistory')) || [];
 
+ const memoBox = document.getElementById('scratchpad-memo');
+ const savedMemo = localStorage.getItem('workspaceMemo');
+ if (savedMemo) memoBox.value = savedMemo;
+ document.getElementById('btn-save-memo').addEventListener('click', () => {
+   localStorage.setItem('workspaceMemo', memoBox.value);
+   alert('Memo synced to local storage.');
+ });
+
  function navigate(query, isHistoryNavigation = false) {
     if (!query || !query.trim()) return;
   let finalUrl = '';
